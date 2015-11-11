@@ -1,7 +1,11 @@
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.FileOutputStream;
 
 import javax.swing.Icon;
@@ -12,23 +16,60 @@ import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 
 
-public class AbsolutePosition extends JFrame {
-	public AbsolutePosition() {
+public class MainWindow extends JFrame {
+	public MainWindow() {
 		setTitle("MIPS-汇编器");//设置标题
 		setLayout(null);//取消布局管理器
 		setBounds(0,0,200,150);//设定窗体位置大小
 		java.awt.Container c = getContentPane();//创建容器对象
+		
 		Icon icon_new = new ImageIcon("Image/btn_new.png");
 		final JButton b_new = new JButton(icon_new);//创建按钮
 		Icon icon_build = new ImageIcon("Image/btn_build.png");
 		final JButton b_build = new JButton(icon_build);
+		Icon icon_save = new ImageIcon("Image/btn_save.png");
+		final JButton b_save = new JButton(icon_save);
+		
 		b_new.setBounds(2,2,33,33);
 		b_build.setBounds(37,2,33,33);
-		b_build.setEnabled(true);
+		b_save.setBounds(72,2,33,33);
+		
+		b_save.setEnabled(false);
+		b_build.setEnabled(false);
 		b_new.setToolTipText("新建一个文件");
 		b_build.setToolTipText("编译文件");
+		b_save.setToolTipText("保存文件");
+		
 		final JTextArea jt = new JTextArea("",8,6);
 		jt.setLineWrap(true);
+		
+		
+		
+		jt.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if(jt.getText().length() != 0){
+					b_build.setEnabled(true);
+					b_save.setEnabled(true);
+				}
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		
+		
 		b_new.addActionListener(new ActionListener() {
 			
 			@Override
@@ -37,7 +78,10 @@ public class AbsolutePosition extends JFrame {
 				jt.requestFocus();
 			}
 		});
-		b_build.addActionListener(new ActionListener() {
+		
+		
+		
+		b_save.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -52,6 +96,8 @@ public class AbsolutePosition extends JFrame {
 				catch(Exception e1){
 					e1.printStackTrace();
 				}
+				b_save.setEnabled(false);
+				b_build.setEnabled(true);
 			}
 
 			private void CreatFile() {
@@ -69,14 +115,40 @@ public class AbsolutePosition extends JFrame {
 				}
 			}
 		});
+		
+		
+		b_build.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				File file = new File("filetest.txt");
+				try{
+					FileReader fileReader = new FileReader(file);
+					BufferedReader bufferedReader = new BufferedReader(fileReader);
+					String string = null;
+					while((string = bufferedReader.readLine())!=null){
+						Assembler.assembler(string);
+					}
+					bufferedReader.close();
+					fileReader.close();
+				}
+				catch(Exception e2){
+					e2.printStackTrace();
+				}
+			}
+		});
+		
+		
+		
 		jt.setBounds(2,37,500,500);
 		c.add(b_new);
 		c.add(b_build);
+		c.add(b_save);
 		c.add(jt);
 		setVisible(true);//窗口可见
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
 	public static void main(String[] args){
-		new AbsolutePosition();
+		new MainWindow();
 	}
 }
