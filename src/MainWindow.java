@@ -125,10 +125,9 @@ public class MainWindow extends JFrame {
 				try{
 					FileReader fileReader = new FileReader(file);
 					BufferedReader bufferedReader = new BufferedReader(fileReader);
-					String string = null;
-					while((string = bufferedReader.readLine())!=null){
-						Assembler.assembler(string);
-					}
+					char cha[] = new char[10000];
+					int len = bufferedReader.read(cha);
+					Assembler.assembler(cha);
 					bufferedReader.close();
 					fileReader.close();
 				}
