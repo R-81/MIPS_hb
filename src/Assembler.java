@@ -2,10 +2,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import javax.swing.*;
-public class Assembler {
-	private String registerwords[] = new String[64];
-	private	byte register[] = new byte[32];
-	private char Code[] = new char[10000];
+public class Assembler extends DM{
+	private String registerwords[] = new String[200];
+	public char Code[] = new char[10000];
 	private void Initial(){
 		registerwords[0] = "$zero";
 		registerwords[1] = "$at";
@@ -71,28 +70,55 @@ public class Assembler {
 		registerwords[61] = "$29";
 		registerwords[62] = "$30";
 		registerwords[63] = "$31";
-		for(int i = 0;i < 32;i++){
-			register[i] = 0x00000000;
-		}
+		registerwords[64] = ".text";
 	}
-	private void ReadFile(){
+	public char[] ReadFile(){
 		File file = new File("filetest.txt");
+		char ch[] = new char[10000];
 		try{
 			FileReader in = new FileReader(file);
-			int len = in.read(Code); 
+			in.read(ch); 
 			in.close();
 		}
 		catch(Exception e){
 			e.printStackTrace();
 		}
+		return ch;
 	}
 	public void start(){
 		MainWindow win = new MainWindow();
 		win.Window();
-		Initial();
-		ReadFile();
 	}
 	public void built(){
-		;
+		Initial();
+		Code = ReadFile();
+		String strtemp[] = new String[3];
+		char chtemp[] = new char[10];
+		int partmeterNumber = new int;
+		partmeterNumber = 0;
+		
+		for(int i = 0,j = 0;i < array.length;i++){
+			if(Code[i]!=' '&&Code[i]!='\r'&&Code[i]!=','){
+				chtemp[j]=Code[i];
+				j++;
+			}
+			else if(Code[i]=='\n'){
+				Precondition pre = new Precondition();
+				pre.start(k);
+			}
+			else{
+				String str = String(0,j);
+				for(int k = 0;k < 200;k++){
+					boolean ans = str.equals(registerwords[k]);
+					if(partmeterNumber==0){
+						Number = k;
+					}
+					if(ans){
+						strtemp[partmeterNumber] = str;
+						partmeterNumber++;
+					}
+				}
+			}
+		}
 	}
 }
