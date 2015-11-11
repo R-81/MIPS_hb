@@ -70,7 +70,76 @@ public class Assembler extends DM{
 		registerwords[61] = "$29";
 		registerwords[62] = "$30";
 		registerwords[63] = "$31";
-		registerwords[64] = ".text";
+		//R
+		//one register
+		registerwords[64] = "mfc0";
+		registerwords[65] = "mfhi";
+		registerwords[66] = "mflo";
+		registerwords[67] = "mthi";
+		registerwords[68] = "mtlo";
+		//two register
+		registerwords[69] = "mtc0";
+		registerwords[70] = "div";
+		registerwords[71] = "divu";
+		registerwords[72] = "mult";
+		registerwords[73] = "multu";
+		//three register
+		registerwords[74] = "add";
+		registerwords[75] = "addu";
+		registerwords[76] = "sub";
+		registerwords[77] = "subu";
+		registerwords[78] = "and";
+		registerwords[79] = "nor";
+		registerwords[80] = "or";
+		registerwords[81] = "xor";
+		registerwords[82] = "sllv";
+		registerwords[83] = "srlv";
+		registerwords[84] = "srav";
+		registerwords[85] = "slt";
+		registerwords[86] = "sltu";
+		//I
+		//5 immediate
+		registerwords[87] = "sll";
+		registerwords[88] = "srl";
+		registerwords[89] = "sra";
+		//16 immediate
+		registerwords[90] = "addi";
+		registerwords[91] = "addiu";
+		registerwords[92] = "andi";
+		registerwords[93] = "ori";
+		registerwords[94] = "xori";
+		registerwords[95] = "slti";
+		registerwords[96] = "sltiu";
+		//16 offset
+		registerwords[97] = "beq";
+		registerwords[98] = "bgez";
+		registerwords[99] = "bgtz";
+		registerwords[100] = "bltz";
+		registerwords[101] = "blez";
+		registerwords[102] = "bne";
+		registerwords[103] = "lb";
+		registerwords[104] = "lbu";
+		registerwords[105] = "lh";
+		registerwords[106] = "lhu";
+		registerwords[107] = "lui";
+		registerwords[108] = "lw";
+		registerwords[109] = "sb";
+		registerwords[110] = "sh";
+		registerwords[111] = "sw";
+		//J
+		//26 index
+		registerwords[112] = "j";
+		//two register
+		registerwords[113] = "jal";
+		//one register
+		registerwords[114] = "jalr";
+		registerwords[115] = "jr";
+		//BREAK
+		registerwords[116] = "break"
+		//ERET
+		registerwords[117] = "eret"
+		//SYSCALL
+		registerwords[118] = "syscall"
 	}
 	public char[] ReadFile(){
 		File file = new File("filetest.txt");
