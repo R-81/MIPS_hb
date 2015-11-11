@@ -17,7 +17,7 @@ import javax.swing.WindowConstants;
 
 
 public class MainWindow extends JFrame {
-	public MainWindow() {
+	public void Window() {
 		setTitle("MIPS-汇编器");//设置标题
 		setLayout(null);//取消布局管理器
 		setBounds(0,0,200,150);//设定窗体位置大小
@@ -43,10 +43,7 @@ public class MainWindow extends JFrame {
 		final JTextArea jt = new JTextArea("",8,6);
 		jt.setLineWrap(true);
 		
-		
-		
 		jt.addKeyListener(new KeyListener() {
-			
 			@Override
 			public void keyTyped(KeyEvent e) {
 				if(jt.getText().length() != 0){
@@ -54,15 +51,15 @@ public class MainWindow extends JFrame {
 					b_save.setEnabled(true);
 				}
 			}
-			
+
 			@Override
-			public void keyReleased(KeyEvent e) {
+			public void keyPressed(KeyEvent e) {
 				// TODO Auto-generated method stub
 				
 			}
-			
+
 			@Override
-			public void keyPressed(KeyEvent e) {
+			public void keyReleased(KeyEvent e) {
 				// TODO Auto-generated method stub
 				
 			}
@@ -121,20 +118,8 @@ public class MainWindow extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				File file = new File("filetest.txt");
-				try{
-					FileReader fileReader = new FileReader(file);
-					BufferedReader bufferedReader = new BufferedReader(fileReader);
-					String string = null;
-					while((string = bufferedReader.readLine())!=null){
-						Assembler.assembler(string);
-					}
-					bufferedReader.close();
-					fileReader.close();
-				}
-				catch(Exception e2){
-					e2.printStackTrace();
-				}
+				Assembler ass = new Assembler();
+				ass.built();
 			}
 		});
 		
@@ -147,8 +132,5 @@ public class MainWindow extends JFrame {
 		c.add(jt);
 		setVisible(true);//窗口可见
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-	}
-	public static void main(String[] args){
-		new MainWindow();
 	}
 }
