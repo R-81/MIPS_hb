@@ -1,18 +1,15 @@
-
-import java.awt.Dimension;
+import java.io.File;
+import java.io.FileWriter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.URL;
+import java.io.FileOutputStream;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.WindowConstants;
-
-import com.sun.xml.internal.ws.api.server.Container;
 
 
 public class AbsolutePosition extends JFrame {
@@ -27,7 +24,7 @@ public class AbsolutePosition extends JFrame {
 		final JButton b_build = new JButton(icon_build);
 		b_new.setBounds(2,2,33,33);
 		b_build.setBounds(37,2,33,33);
-		b_build.setEnabled(false);
+		b_build.setEnabled(true);
 		b_new.setToolTipText("新建一个文件");
 		b_build.setToolTipText("编译文件");
 		final JTextArea jt = new JTextArea("",8,6);
@@ -38,6 +35,38 @@ public class AbsolutePosition extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				jt.setText("");
 				jt.requestFocus();
+			}
+		});
+		b_build.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				CreatFile();
+				String s = jt.getText().replaceAll("\n", "\r\n");
+				try{
+					File file = new File("filetest.txt");
+					FileWriter out = new FileWriter(file);
+					out.write(s);
+					out.close();
+				}
+				catch(Exception e1){
+					e1.printStackTrace();
+				}
+			}
+
+			private void CreatFile() {
+				File file = new File("filetest.txt");
+				if(file.exists()){
+					file.delete();
+					System.out.println("文件已删除");
+				}
+				try{
+						file.createNewFile();
+						System.out.println("文件已创建");
+				}
+				catch(Exception e){
+						e.printStackTrace();
+				}
 			}
 		});
 		jt.setBounds(2,37,500,500);
