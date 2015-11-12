@@ -1,7 +1,12 @@
-import java.awt.Insets;
+import java.awt.event.KeyListener;
 
-import com.sun.crypto.provider.RSACipher;
-import com.sun.org.apache.xpath.internal.operations.Or;
+import javax.naming.InitialContext;
+
+import jdk.nashorn.internal.runtime.regexp.joni.SearchAlgorithm;
+
+import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
+
+
 
 
 
@@ -10,8 +15,7 @@ public class Assembler {
 	private static int register[] = new int[32];
 	private static String registerwords[] = new String[64];
 	private static String inswords[] = new String[Maxpos+1];
-
-	private void Initial(){
+	private static void Initial(){
 		registerwords[0] = "$zero";
 		registerwords[1] = "$at";
 		registerwords[2] = "$v0";
@@ -80,79 +84,41 @@ public class Assembler {
 		
 		inswords[0] = "li";
 		inswords[1] = "la";
-		
 	}
 	public static void assembler(char ins[]) {
+		Initial();
 		//存折所有读入
-		char op[] = new char[5];//
+		char line[] = new char[30];//
 		//存指令，例如add
 		char label[] = new char[10];
 		//beq等跳转指令用标签
-		char r[] = new char[5];
-		int inspos;
 		int i = 0;
 		for(int j = 0;i<ins.length;i++){
-			System.out.println(ins[i]);
-			if(ins[i] == ' '||ins[i] == ':'){
-				System.out.println("1");
-				j = 0;
-				i++;
-				break;
+			if(ins[i]!='\n'){
+				line[j++] = ins[i];
 			}
-			else{
-				System.out.println("0");
-				op[j++] = ins[i];
+			else if (ins[i] == '\n') {
+				int len = j;
+				int k;
+				int mark = 0;
+				char op[] = new char[5];
+				for(j = 0,k = 0;j<len;j++){
+					if(line[j] == ' '&& op.length!=0){
+						String ops = "";
+						int oppos;
+						for(int l = 0;l<5;l++)
+							if(op[l]>='a'&& op[l]<='z')
+								ops = ops+op[l];
+						for(oppos = 0;oppos<=******;oppos++)
+							if(registerwords[oppos].equals(ops))
+								break;
+					}
+					else
+						op[k++] = line[j];
+				}
+				
 			}
 		}
-		System.out.println(op);
-		for(inspos = 0;inspos<=1;inspos++)
-			if(op.equals(inswords[inspos]))
-				break;
-		//查找命令在命令表中的位置
-		if(inspos>Maxpos)
-			System.out.println("第"+"行指令不存在或错误");
-		//这里可以加一个找不到指令的报错
-		//怎么处理错误还可以再研究
-		if(inspos == 0){
-			//li指令
-			for(int j = 0;ins[i]!=',';i++){
-				if(ins[i] == ' '&&j == 0)
-					continue;
-				else if(ins[i] != '$'&& j == 0){
-					System.out.println("li指令格式不正确");
-				}
-				else if((ins[i] == '$'&&j == 0)||j != 0){
-					r[j++] = ins[i];
-				}
-				else if(ins[i] == ','){
-					i++;
-					break;
-				}
-			}
-			int rt = 32;
-			for(int j = 0;j<=63;j++)
-				if(registerwords[j].equals(r))
-					rt = j%32;
-			//确定使用寄存器rt
-			int imm = 0;
-			for(int mark = 0;i<ins.length;i++){
-				if(ins[i] == '-' && mark == 0 && imm == 0)
-					mark = 1;
-				else if(ins[i] >= '0'&& ins[i] <= '9'){
-					imm = imm*10+ins[i]-'0';
-				}
-				else if(ins[i] == ';'){
-					i++;
-					break;
-				}
-				else {
-					System.out.println("li指令立即数错误");
-				}
-			}
-			String imm16 = Integer.toHexString(imm);
-			imm = Integer.parseInt(imm16);
-			System.out.println(imm);
-			register[rt] = imm;
-		}
-		}
+	}
+
 }
