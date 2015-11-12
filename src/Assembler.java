@@ -1,5 +1,7 @@
-<<<<<<< HEAD
+
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.FileReader;
 
 import javax.naming.InitialContext;
 
@@ -12,21 +14,12 @@ import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
 
 
 public class Assembler {
-	private static int Maxpos = 1;
+	private static int Maxpos = 118;
 	private static int register[] = new int[32];
 	private static String registerwords[] = new String[64];
 	private static String inswords[] = new String[Maxpos+1];
 	private static void Initial(){
-=======
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import javax.swing.*;
-public class Assembler extends DM{
-	private String registerwords[] = new String[200];
-	public char Code[] = new char[10000];
-	private void Initial(){
->>>>>>> origin/master
+
 		registerwords[0] = "$zero";
 		registerwords[1] = "$at";
 		registerwords[2] = "$v0";
@@ -91,12 +84,6 @@ public class Assembler extends DM{
 		registerwords[61] = "$29";
 		registerwords[62] = "$30";
 		registerwords[63] = "$31";
-<<<<<<< HEAD
-		
-		
-		inswords[0] = "li";
-		inswords[1] = "la";
-=======
 		//R
 		//one register
 		registerwords[64] = "mfc0";
@@ -162,12 +149,15 @@ public class Assembler extends DM{
 		registerwords[114] = "jalr";
 		registerwords[115] = "jr";
 		//BREAK
-		registerwords[116] = "break"
+		registerwords[116] = "break";
 		//ERET
-		registerwords[117] = "eret"
+		registerwords[117] = "eret";
 		//SYSCALL
-		registerwords[118] = "syscall"
+		registerwords[118] = "syscall";
 	}
+	
+	
+	
 	public char[] ReadFile(){
 		File file = new File("filetest.txt");
 		char ch[] = new char[10000];
@@ -181,44 +171,16 @@ public class Assembler extends DM{
 		}
 		return ch;
 	}
+	
+	
+	
+	
 	public void start(){
 		MainWindow win = new MainWindow();
 		win.Window();
 	}
-	public void built(){
-		Initial();
-		Code = ReadFile();
-		String strtemp[] = new String[3];
-		char chtemp[] = new char[10];
-		int partmeterNumber = new int;
-		partmeterNumber = 0;
-		
-		for(int i = 0,j = 0;i < array.length;i++){
-			if(Code[i]!=' '&&Code[i]!='\r'&&Code[i]!=','){
-				chtemp[j]=Code[i];
-				j++;
-			}
-			else if(Code[i]=='\n'){
-				Precondition pre = new Precondition();
-				pre.start(k);
-			}
-			else{
-				String str = String(0,j);
-				for(int k = 0;k < 200;k++){
-					boolean ans = str.equals(registerwords[k]);
-					if(partmeterNumber==0){
-						Number = k;
-					}
-					if(ans){
-						strtemp[partmeterNumber] = str;
-						partmeterNumber++;
-					}
-				}
-			}
-		}
->>>>>>> origin/master
-	}
-	public static void assembler(char ins[]) {
+	
+	public void assembler(char ins[]) {
 		Initial();
 		//¥Ê’€À˘”–∂¡»Î
 		char line[] = new char[30];//
@@ -242,7 +204,7 @@ public class Assembler extends DM{
 						for(int l = 0;l<5;l++)
 							if(op[l]>='a'&& op[l]<='z')
 								ops = ops+op[l];
-						for(oppos = 0;oppos<=******;oppos++)
+						for(oppos = 0;oppos<=Maxpos;oppos++)
 							if(registerwords[oppos].equals(ops))
 								break;
 					}

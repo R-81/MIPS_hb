@@ -15,6 +15,8 @@ import javax.swing.JFrame;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 
+import jdk.internal.dynalink.beans.StaticClass;
+
 
 public class MainWindow extends JFrame {
 	public void Window() {
@@ -88,7 +90,7 @@ public class MainWindow extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				char ch[] = new char[10000];
-				ch = ass.ReadFile();
+				//ch = ass.ReadFile();
 				String str = String.valueOf(ch);
 				jt.setText(str);
 			}
@@ -135,27 +137,12 @@ public class MainWindow extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
-				File file = new File("filetest.txt");
-				try{
-					FileReader fileReader = new FileReader(file);
-					BufferedReader bufferedReader = new BufferedReader(fileReader);
-					char cha[] = new char[10000];
-					int len = bufferedReader.read(cha);
-					Assembler.assembler(cha);
-					bufferedReader.close();
-					fileReader.close();
+				char ins[] = new char[1000];
+				ins = ass.ReadFile();
+				ass.assembler(ins);
 				}
-				catch(Exception e2){
-					e2.printStackTrace();
-				}
-=======
-				ass.built();
->>>>>>> origin/master
-			}
-		});
-		
-		
+			});
+
 		
 		jt.setBounds(2,37,500,500);
 		c.add(b_new);
