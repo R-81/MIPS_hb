@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import java.awt.event.KeyListener;
 
 import javax.naming.InitialContext;
@@ -16,6 +17,16 @@ public class Assembler {
 	private static String registerwords[] = new String[64];
 	private static String inswords[] = new String[Maxpos+1];
 	private static void Initial(){
+=======
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+import javax.swing.*;
+public class Assembler extends DM{
+	private String registerwords[] = new String[200];
+	public char Code[] = new char[10000];
+	private void Initial(){
+>>>>>>> origin/master
 		registerwords[0] = "$zero";
 		registerwords[1] = "$at";
 		registerwords[2] = "$v0";
@@ -80,10 +91,132 @@ public class Assembler {
 		registerwords[61] = "$29";
 		registerwords[62] = "$30";
 		registerwords[63] = "$31";
+<<<<<<< HEAD
 		
 		
 		inswords[0] = "li";
 		inswords[1] = "la";
+=======
+		//R
+		//one register
+		registerwords[64] = "mfc0";
+		registerwords[65] = "mfhi";
+		registerwords[66] = "mflo";
+		registerwords[67] = "mthi";
+		registerwords[68] = "mtlo";
+		//two register
+		registerwords[69] = "mtc0";
+		registerwords[70] = "div";
+		registerwords[71] = "divu";
+		registerwords[72] = "mult";
+		registerwords[73] = "multu";
+		//three register
+		registerwords[74] = "add";
+		registerwords[75] = "addu";
+		registerwords[76] = "sub";
+		registerwords[77] = "subu";
+		registerwords[78] = "and";
+		registerwords[79] = "nor";
+		registerwords[80] = "or";
+		registerwords[81] = "xor";
+		registerwords[82] = "sllv";
+		registerwords[83] = "srlv";
+		registerwords[84] = "srav";
+		registerwords[85] = "slt";
+		registerwords[86] = "sltu";
+		//I
+		//5 immediate
+		registerwords[87] = "sll";
+		registerwords[88] = "srl";
+		registerwords[89] = "sra";
+		//16 immediate
+		registerwords[90] = "addi";
+		registerwords[91] = "addiu";
+		registerwords[92] = "andi";
+		registerwords[93] = "ori";
+		registerwords[94] = "xori";
+		registerwords[95] = "slti";
+		registerwords[96] = "sltiu";
+		//16 offset
+		registerwords[97] = "beq";
+		registerwords[98] = "bgez";
+		registerwords[99] = "bgtz";
+		registerwords[100] = "bltz";
+		registerwords[101] = "blez";
+		registerwords[102] = "bne";
+		registerwords[103] = "lb";
+		registerwords[104] = "lbu";
+		registerwords[105] = "lh";
+		registerwords[106] = "lhu";
+		registerwords[107] = "lui";
+		registerwords[108] = "lw";
+		registerwords[109] = "sb";
+		registerwords[110] = "sh";
+		registerwords[111] = "sw";
+		//J
+		//26 index
+		registerwords[112] = "j";
+		//two register
+		registerwords[113] = "jal";
+		//one register
+		registerwords[114] = "jalr";
+		registerwords[115] = "jr";
+		//BREAK
+		registerwords[116] = "break"
+		//ERET
+		registerwords[117] = "eret"
+		//SYSCALL
+		registerwords[118] = "syscall"
+	}
+	public char[] ReadFile(){
+		File file = new File("filetest.txt");
+		char ch[] = new char[10000];
+		try{
+			FileReader in = new FileReader(file);
+			in.read(ch); 
+			in.close();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return ch;
+	}
+	public void start(){
+		MainWindow win = new MainWindow();
+		win.Window();
+	}
+	public void built(){
+		Initial();
+		Code = ReadFile();
+		String strtemp[] = new String[3];
+		char chtemp[] = new char[10];
+		int partmeterNumber = new int;
+		partmeterNumber = 0;
+		
+		for(int i = 0,j = 0;i < array.length;i++){
+			if(Code[i]!=' '&&Code[i]!='\r'&&Code[i]!=','){
+				chtemp[j]=Code[i];
+				j++;
+			}
+			else if(Code[i]=='\n'){
+				Precondition pre = new Precondition();
+				pre.start(k);
+			}
+			else{
+				String str = String(0,j);
+				for(int k = 0;k < 200;k++){
+					boolean ans = str.equals(registerwords[k]);
+					if(partmeterNumber==0){
+						Number = k;
+					}
+					if(ans){
+						strtemp[partmeterNumber] = str;
+						partmeterNumber++;
+					}
+				}
+			}
+		}
+>>>>>>> origin/master
 	}
 	public static void assembler(char ins[]) {
 		Initial();

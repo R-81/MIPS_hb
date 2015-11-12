@@ -17,7 +17,9 @@ import javax.swing.WindowConstants;
 
 
 public class MainWindow extends JFrame {
-	public MainWindow() {
+	public void Window() {
+		Assembler ass = new Assembler();
+		
 		setTitle("MIPS-汇编器");//设置标题
 		setLayout(null);//取消布局管理器
 		setBounds(0,0,200,150);//设定窗体位置大小
@@ -29,24 +31,25 @@ public class MainWindow extends JFrame {
 		final JButton b_build = new JButton(icon_build);
 		Icon icon_save = new ImageIcon("Image/btn_save.png");
 		final JButton b_save = new JButton(icon_save);
+		Icon icon_open = new ImageIcon("Image/btn_open.png");
+		final JButton b_open = new JButton(icon_open);
 		
 		b_new.setBounds(2,2,33,33);
 		b_build.setBounds(37,2,33,33);
 		b_save.setBounds(72,2,33,33);
+		b_open.setBounds(107,2,33,33);
 		
 		b_save.setEnabled(false);
 		b_build.setEnabled(false);
 		b_new.setToolTipText("新建一个文件");
 		b_build.setToolTipText("编译文件");
 		b_save.setToolTipText("保存文件");
+		b_open.setToolTipText("打开文件");
 		
 		final JTextArea jt = new JTextArea("",8,6);
 		jt.setLineWrap(true);
 		
-		
-		
 		jt.addKeyListener(new KeyListener() {
-			
 			@Override
 			public void keyTyped(KeyEvent e) {
 				if(jt.getText().length() != 0){
@@ -54,15 +57,15 @@ public class MainWindow extends JFrame {
 					b_save.setEnabled(true);
 				}
 			}
-			
+
 			@Override
-			public void keyReleased(KeyEvent e) {
+			public void keyPressed(KeyEvent e) {
 				// TODO Auto-generated method stub
 				
 			}
-			
+
 			@Override
-			public void keyPressed(KeyEvent e) {
+			public void keyReleased(KeyEvent e) {
 				// TODO Auto-generated method stub
 				
 			}
@@ -79,6 +82,17 @@ public class MainWindow extends JFrame {
 			}
 		});
 		
+		
+		b_open.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				char ch[] = new char[10000];
+				ch = ass.ReadFile();
+				String str = String.valueOf(ch);
+				jt.setText(str);
+			}
+		});
 		
 		
 		b_save.addActionListener(new ActionListener() {
@@ -121,6 +135,7 @@ public class MainWindow extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
 				File file = new File("filetest.txt");
 				try{
 					FileReader fileReader = new FileReader(file);
@@ -134,6 +149,9 @@ public class MainWindow extends JFrame {
 				catch(Exception e2){
 					e2.printStackTrace();
 				}
+=======
+				ass.built();
+>>>>>>> origin/master
 			}
 		});
 		
@@ -143,11 +161,9 @@ public class MainWindow extends JFrame {
 		c.add(b_new);
 		c.add(b_build);
 		c.add(b_save);
+		c.add(b_open);
 		c.add(jt);
 		setVisible(true);//窗口可见
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-	}
-	public static void main(String[] args){
-		new MainWindow();
 	}
 }
