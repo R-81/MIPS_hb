@@ -135,7 +135,6 @@ public class MainWindow extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
 				File file = new File("filetest.txt");
 				try{
 					FileReader fileReader = new FileReader(file);
@@ -149,9 +148,6 @@ public class MainWindow extends JFrame {
 				catch(Exception e2){
 					e2.printStackTrace();
 				}
-=======
-				ass.built();
->>>>>>> origin/master
 			}
 		});
 		
