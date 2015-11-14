@@ -478,10 +478,6 @@ public class R extends DM{
 		for(int i = 31-tempNumber;i>=0;i--){
 			register[38][i] = 0;
 		}
-		for(int w = 0;w<32;w++){
-			System.out.printf("%d",register[38][w]);
-		}
-		System.out.printf("\n");
 		for(int i = 0,j = 31-tempNumber;i<32-tempNumber;i++,j--){
 			for(int k = 0;k <= tempNumber;k++){
 				register[35][k]=register[38][31-tempNumber+k-i];
@@ -491,21 +487,13 @@ public class R extends DM{
 				register[35][k]=0;
 				register[36][k]=0;
 			}
-			for(int w = 0;w<32;w++){
-				System.out.printf("%d",register[35][w]);
-			}
-			System.out.printf("\n");
-			for(int w = 0;w<32;w++){
-				System.out.printf("%d",register[36][w]);
-			}
-			System.out.printf("\n");
 			register[1][0]=1;
 			for(int k = 31;k>=0;k--){
-				if(register[35][i]<register[36][i]){
+				if(register[35][k]<register[36][k]){
 					register[1][0]=1;
 					break;
 				}
-				else if(register[35][i]>register[36][i]){
+				else if(register[35][k]>register[36][k]){
 					register[1][0]=0;
 					break;
 				}
@@ -520,11 +508,6 @@ public class R extends DM{
 				for(int k = 0;k <= tempNumber;k++){
 					register[33][31-tempNumber+k-i]=register[37][k];
 				}
-				for(int w = 0;w<32;w++){
-					System.out.printf("%d",register[33][w]);
-				}
-				System.out.printf("\n");
-				System.out.printf("233\n");
 			}
 			else{
 				register[34][j]=0;
