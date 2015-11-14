@@ -12,8 +12,5 @@ public class DM{
 				register[i][j] = 0;
 			}
 		}
-		register[5][1]=1;
-		register[5][31]=1;
-		register[6][2]=1;
 	}
 }
