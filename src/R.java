@@ -64,6 +64,21 @@ public class R extends DM{
 		if(parameter2>31){
 			parameter2 -= 32;
 		}
+		if(instruction==69){
+			returnNumber = mtc0(parameter1,parameter2);
+		}
+		else if(instruction==70){
+			returnNumber = div(parameter1,parameter2);
+		}
+		else if(instruction==71){
+			returnNumber = divu(parameter1,parameter2);
+		}
+		else if(instruction==72){
+			returnNumber = mult(parameter1,parameter2);
+		}
+		else if(instruction==73){
+			returnNumber = multu(parameter1,parameter2);
+		}
 		else{
 			returnNumber = 1;
 		}
@@ -295,6 +310,11 @@ public class R extends DM{
 			for(int i = 30;i>=0;i--){
 				if(register[parameter2][i]>register[parameter3][i]){
 					tempNumber = 1;
+					break;
+				}
+				else if(register[parameter2][i]<register[parameter3][i]){
+					tempNumber = 0;
+					break;
 				}
 			}
 		}
@@ -302,6 +322,11 @@ public class R extends DM{
 			for(int i = 30;i>=0;i--){
 				if(register[parameter2][i]<register[parameter3][i]){
 					tempNumber = 1;
+					break;
+				}
+				else if(register[parameter2][i]>register[parameter3][i]){
+					tempNumber = 0;
+					break;
 				}
 			}
 		}
@@ -323,6 +348,145 @@ public class R extends DM{
 		for(int i = 30;i>=0;i--){
 			if(register[parameter2][i]<register[parameter3][i]){
 				tempNumber = 1;
+				break;
+			}
+			else if(register[parameter2][i]>register[parameter3][i]){
+				tempNumber = 0;
+				break;
+			}
+		}
+		if(tempNumber==1){
+			for(int i =1;i < 32;i++){
+				register[parameter1][i] = 0;
+			}
+			register[parameter1][0] = 1;
+		}
+		else{
+			for(int i =0;i < 32;i++){
+				register[parameter1][i] = 0;
+			}
+		}
+		return 0;
+	}
+	private static int mtc0(int parameter1,int parameter2){
+		for(int i = 0;i < 32;i++){
+			CoregisterCP0[parameter2][i] = register[parameter1][i];
+		}
+		return 0;
+	}
+	private static int div(int parameter1,int parameter2){
+		int tempNumber=0;
+		if(register[parameter2][31]==0){
+			for(int i=0;i<32;i++){
+				register[38][i]=register[parameter2][i];
+			}
+		}
+		else{
+			register[38][31]=1;
+			for(int i=0;i<31;i++){
+				register[38][i]=1^register[parameter2][i];
+			}
+			addu(38,38,0,1);
+		}
+		if(register[parameter1][31]==0){
+			for(int i=0;i<32;i++){
+				register[33][i]=register[parameter1][i];
+			}
+		}
+		else{
+			register[33][31]=1;
+			for(int i=0;i<31;i++){
+				register[33][i]=1^register[parameter1][i];
+			}
+			addu(33,33,0,1);
+		}
+		for(int i = 30;i>=0;i--){
+			if(register[38][i]==1){
+				tempNumber = i;
+				break;
+			}
+		}
+		for(int k = 30;k>30-tempNumber;k--){
+			register[34][k]=0;
+		}
+		register[34][31]=register[33][31]^register[38][31];
+		for(int i = 30;i>= 30 - tempNumber;i--){
+			register[38][i] = register[38][i-30+tempNumber];
+		}
+		for(int i = 29-tempNumber;i>=0;i--){
+			register[38][i] = 0;
+		}
+		for(int i = 0,j = 30-tempNumber;i<31-tempNumber;i++,j--){
+			for(int k = 0;k <= tempNumber;k++){
+				register[35][k]=register[38][30-tempNumber+k-i];
+				register[36][k]=register[33][30-tempNumber+k-i];
+			}
+			for(int k = tempNumber+1;k<32;k++){
+				register[35][k]=0;
+				register[36][k]=0;
+			}
+			for(int ww=0;ww<32;ww++){
+				System.out.printf("%d",register[35][ww]);
+			}
+			System.out.printf("\n");
+			for(int ww=0;ww<32;ww++){
+				System.out.printf("%d",register[36][ww]);
+			}
+			System.out.printf("\n");
+			sleu(1,35,36);
+			if(register[1][0]==1){
+				System.out.printf("233\n");
+				register[34][j]=1;
+				subu(37,36,35);
+				for(int k = 0;k <= tempNumber;k++){
+					register[33][30-tempNumber+k-i]=register[37][k];
+				}
+				for(int ww=0;ww<32;ww++){
+					System.out.printf("%d",register[37][ww]);
+				}
+				System.out.printf("\n");
+			}
+			else{
+				register[34][j]=0;
+			}
+			for(int k = 0;k < 30;k++){
+				register[38][k] = register[38][k+1];
+			}
+			register[38][30]=0;
+		}
+		if(register[33][31]==1){
+			for(int i=0;i<31;i++){
+				register[33][i]=1^register[33][i];
+			}
+			addu(33,33,0,1);
+		}
+		if(register[34][31]==1){
+			for(int i=0;i<31;i++){
+				register[34][i]=1^register[34][i];
+			}
+			addu(34,34,0,1);
+		}
+		return 0;
+	}
+	private static int divu(int parameter1,int parameter2){
+		return 0;
+	}
+	private static int mult(int parameter1,int parameter2){
+		return 0;
+	}
+	private static int multu(int parameter1,int parameter2){
+		return 0;
+	}
+	private static int sleu(int parameter1,int parameter2,int parameter3){
+		int tempNumber = 1;
+		for(int i = 30;i>=0;i--){
+			if(register[parameter2][i]<register[parameter3][i]){
+				tempNumber = 1;
+				break;
+			}
+			else if(register[parameter2][i]>register[parameter3][i]){
+				tempNumber = 0;
+				break;
 			}
 		}
 		if(tempNumber==1){
