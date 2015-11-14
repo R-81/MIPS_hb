@@ -425,26 +425,13 @@ public class R extends DM{
 				register[35][k]=0;
 				register[36][k]=0;
 			}
-			for(int ww=0;ww<32;ww++){
-				System.out.printf("%d",register[35][ww]);
-			}
-			System.out.printf("\n");
-			for(int ww=0;ww<32;ww++){
-				System.out.printf("%d",register[36][ww]);
-			}
-			System.out.printf("\n");
 			sleu(1,35,36);
 			if(register[1][0]==1){
-				System.out.printf("233\n");
 				register[34][j]=1;
 				subu(37,36,35);
 				for(int k = 0;k <= tempNumber;k++){
 					register[33][30-tempNumber+k-i]=register[37][k];
 				}
-				for(int ww=0;ww<32;ww++){
-					System.out.printf("%d",register[37][ww]);
-				}
-				System.out.printf("\n");
 			}
 			else{
 				register[34][j]=0;
@@ -469,6 +456,84 @@ public class R extends DM{
 		return 0;
 	}
 	private static int divu(int parameter1,int parameter2){
+		int tempNumber=0;
+		for(int i=0;i<32;i++){
+			register[38][i]=register[parameter2][i];
+		}
+		for(int i=0;i<32;i++){
+			register[33][i]=register[parameter1][i];
+		}
+		for(int i = 31;i>=0;i--){
+			if(register[38][i]==1){
+				tempNumber = i;
+				break;
+			}
+		}
+		for(int k = 31;k>31-tempNumber;k--){
+			register[34][k]=0;
+		}
+		for(int i = 31;i>= 31 - tempNumber;i--){
+			register[38][i] = register[38][i-31+tempNumber];
+		}
+		for(int i = 31-tempNumber;i>=0;i--){
+			register[38][i] = 0;
+		}
+		for(int w = 0;w<32;w++){
+			System.out.printf("%d",register[38][w]);
+		}
+		System.out.printf("\n");
+		for(int i = 0,j = 31-tempNumber;i<32-tempNumber;i++,j--){
+			for(int k = 0;k <= tempNumber;k++){
+				register[35][k]=register[38][31-tempNumber+k-i];
+				register[36][k]=register[33][31-tempNumber+k-i];
+			}
+			for(int k = tempNumber+1;k<32;k++){
+				register[35][k]=0;
+				register[36][k]=0;
+			}
+			for(int w = 0;w<32;w++){
+				System.out.printf("%d",register[35][w]);
+			}
+			System.out.printf("\n");
+			for(int w = 0;w<32;w++){
+				System.out.printf("%d",register[36][w]);
+			}
+			System.out.printf("\n");
+			register[1][0]=1;
+			for(int k = 31;k>=0;k--){
+				if(register[35][i]<register[36][i]){
+					register[1][0]=1;
+					break;
+				}
+				else if(register[35][i]>register[36][i]){
+					register[1][0]=0;
+					break;
+				}
+			}
+			if(register[1][0]==1){
+				register[34][j]=1;	
+				for(int k=0;k<32;k++){
+					register[35][k]=1^register[35][k];
+				}
+				addu(35,35,0,1);
+				addu(37,35,36,0);
+				for(int k = 0;k <= tempNumber;k++){
+					register[33][31-tempNumber+k-i]=register[37][k];
+				}
+				for(int w = 0;w<32;w++){
+					System.out.printf("%d",register[33][w]);
+				}
+				System.out.printf("\n");
+				System.out.printf("233\n");
+			}
+			else{
+				register[34][j]=0;
+			}
+			for(int k = 0;k < 31;k++){
+				register[38][k] = register[38][k+1];
+			}
+			register[38][31]=0;
+		}
 		return 0;
 	}
 	private static int mult(int parameter1,int parameter2){
@@ -487,6 +552,48 @@ public class R extends DM{
 			else if(register[parameter2][i]>register[parameter3][i]){
 				tempNumber = 0;
 				break;
+			}
+		}
+		if(tempNumber==1){
+			for(int i =1;i < 32;i++){
+				register[parameter1][i] = 0;
+			}
+			register[parameter1][0] = 1;
+		}
+		else{
+			for(int i =0;i < 32;i++){
+				register[parameter1][i] = 0;
+			}
+		}
+		return 0;
+	}
+	private static int sle(int parameter1,int parameter2,int parameter3){
+		int tempNumber = 1;
+		if(register[parameter2][31]>register[parameter3][31]){
+			tempNumber = 1;
+		}
+		else if((register[parameter1][31] == 1)&&(register[parameter1][31]==1)){
+			for(int i = 30;i>=0;i--){
+				if(register[parameter2][i]>register[parameter3][i]){
+					tempNumber = 1;
+					break;
+				}
+				else if(register[parameter2][i]<register[parameter3][i]){
+					tempNumber = 0;
+					break;
+				}
+			}
+		}
+		else if((register[parameter1][31] == 0)&&(register[parameter1][31]==0)){
+			for(int i = 30;i>=0;i--){
+				if(register[parameter2][i]<register[parameter3][i]){
+					tempNumber = 1;
+					break;
+				}
+				else if(register[parameter2][i]>register[parameter3][i]){
+					tempNumber = 0;
+					break;
+				}
 			}
 		}
 		if(tempNumber==1){
